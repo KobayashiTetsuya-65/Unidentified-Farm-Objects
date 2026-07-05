@@ -1,17 +1,23 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     [Header("参照")]
+    [SerializeField] private UFOAnimation _ufoView;
+    [SerializeField] private Beam _beam;
+
     [Header("パラメーター調整")]
     [SerializeField] private float _speed = 3f;
+    [SerializeField] private float _beamExpandSpeed = 0.5f;
 
     private PlayerInput _playerInput;
-    private InputAction _moveAction;
+    private InputAction _moveAction,_catchAction;
     private Transform _tr;
     private Vector2 _move;
-    private bool _isMoving = true;
+    private bool _isMoving = true,_isCatch = false;
+    private Coroutine _unfoldCorourine;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,6 +25,7 @@ public class Player : MonoBehaviour
 
         _playerInput = GetComponent<PlayerInput>();
         _moveAction = _playerInput.actions["Move"];
+        _catchAction = _playerInput.actions["Jump"];
     }
 
     // Update is called once per frame
@@ -26,9 +33,14 @@ public class Player : MonoBehaviour
     {
         PlayerInput();
     }
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         Move();
+
+        if (_isCatch)
+        {
+            CattleMutilation();
+        }
     }
 
     private void PlayerInput()
@@ -36,6 +48,18 @@ public class Player : MonoBehaviour
         if (_isMoving)
         {
             _move = _moveAction.ReadValue<Vector2>();
+
+            if (_catchAction.WasPressedThisFrame() && !_beam.IsUnfoldong && !_isCatch)
+            {
+                _isCatch = true;
+                _beam.BeamAnimation(_beamExpandSpeed,_isCatch);
+            }
+            else if(_catchAction.WasReleasedThisFrame() && _isCatch)
+            {
+                if (_unfoldCorourine != null) StopCoroutine(_unfoldCorourine);
+
+                _unfoldCorourine = StartCoroutine(WaitUnfolding());
+            }
         }
     }
 
@@ -43,5 +67,18 @@ public class Player : MonoBehaviour
     {
         Vector3 move = new Vector3(_move.x * 0.5f + _move.y * 0.5f, 0f, -_move.x * 0.5f + _move.y * 0.5f);
         _tr.position += move.normalized * _speed * Time.deltaTime;
+        _ufoView.ChangeDirection(move.normalized);
+    }
+
+    private void CattleMutilation()
+    {
+
+    }
+
+    private IEnumerator WaitUnfolding()
+    {
+        yield return new WaitUntil(() => !_beam.IsUnfoldong);
+        _isCatch = false;
+        _beam.BeamAnimation(_beamExpandSpeed, _isCatch);
     }
 }
