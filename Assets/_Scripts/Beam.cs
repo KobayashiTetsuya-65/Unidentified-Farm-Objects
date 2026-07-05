@@ -9,6 +9,7 @@ public class Beam : MonoBehaviour
 
     [Header("参照")]
     [SerializeField] private Light _light;
+    [SerializeField] private GameObject _collider;
 
     [Header("パラメータ")]
     [SerializeField] private int _sides = 28;
@@ -25,8 +26,13 @@ public class Beam : MonoBehaviour
         _mesh = new Mesh();
         _mesh.MarkDynamic();
         GetComponent<MeshFilter>().mesh = _mesh;
+        _collider.SetActive(false);
     }
-
+    /// <summary>
+    /// 光線の表示処理
+    /// </summary>
+    /// <param name="duration">展開時間</param>
+    /// <param name="isExpand">展開する</param>
     public void BeamAnimation(float duration, bool isExpand)
     {
         if (_tween != null)
@@ -34,6 +40,8 @@ public class Beam : MonoBehaviour
             _tween.Kill();
         }
 
+        if(!isExpand)
+            _collider.SetActive(false);
         IsUnfoldong = true;
         float start = isExpand ? 0f : 1f;
         float end = isExpand ? 1f : 0f;
@@ -42,7 +50,7 @@ public class Beam : MonoBehaviour
             {
                 start = x;
                 _light.intensity = Mathf.Lerp(0f, _maxIntensity, start);
-                Rebuild(start);
+                RebuilBeam(start);
             },
             end,
             duration)
@@ -50,11 +58,12 @@ public class Beam : MonoBehaviour
             .OnComplete(() =>
             {
                 IsUnfoldong = false;
+                if (isExpand)
+                    _collider.SetActive(true);
             });
     }
 
-    //長さ調整
-    private void Rebuild(float deploy)
+    private void RebuilBeam(float deploy)
     {
         float len = _maxLength * deploy;
         float botR = Mathf.Lerp(_topRadius, _maxBottomRadius, deploy);
