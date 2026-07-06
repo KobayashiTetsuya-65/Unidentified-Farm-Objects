@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
@@ -7,8 +8,12 @@ public class Beam : MonoBehaviour
 {
     public bool IsUnfoldong { get; private set; } = false;
 
+    public HashSet<ISuckable> Suckables { get; private set; } = new();
+
     [Header("参照")]
     [SerializeField] private Light _light;
+    [SerializeField] private GameObject _collider;
+    [SerializeField] private Transform _center;
 
     [Header("パラメータ")]
     [SerializeField] private int _sides = 28;
@@ -16,6 +21,7 @@ public class Beam : MonoBehaviour
     [SerializeField] private float _maxLength = 8f;
     [SerializeField] private float _maxBottomRadius = 3f;
     [SerializeField] private float _maxIntensity = 120f;
+    [SerializeField] private float _power = 5f;
 
     private Mesh _mesh;
     private Tween _tween;
@@ -25,13 +31,31 @@ public class Beam : MonoBehaviour
         _mesh = new Mesh();
         _mesh.MarkDynamic();
         GetComponent<MeshFilter>().mesh = _mesh;
+        _collider.SetActive(false);
     }
-
+    private void FixedUpdate()
+    {
+        foreach (var obj in Suckables)
+        {
+            obj.Suction(_center.position,_power);
+        }
+    }
+    /// <summary>
+    /// 光線の表示処理
+    /// </summary>
+    /// <param name="duration">展開時間</param>
+    /// <param name="isExpand">展開する</param>
     public void BeamAnimation(float duration, bool isExpand)
     {
         if (_tween != null)
         {
             _tween.Kill();
+        }
+
+        if(!isExpand)
+        {
+            _collider.SetActive(false);
+            RemoveAllSuckable();
         }
 
         IsUnfoldong = true;
@@ -42,7 +66,7 @@ public class Beam : MonoBehaviour
             {
                 start = x;
                 _light.intensity = Mathf.Lerp(0f, _maxIntensity, start);
-                Rebuild(start);
+                RebuilBeam(start);
             },
             end,
             duration)
@@ -50,11 +74,12 @@ public class Beam : MonoBehaviour
             .OnComplete(() =>
             {
                 IsUnfoldong = false;
+                if (isExpand)
+                    _collider.SetActive(true);
             });
     }
 
-    //長さ調整
-    private void Rebuild(float deploy)
+    private void RebuilBeam(float deploy)
     {
         float len = _maxLength * deploy;
         float botR = Mathf.Lerp(_topRadius, _maxBottomRadius, deploy);
@@ -86,5 +111,30 @@ public class Beam : MonoBehaviour
         _mesh.uv = uvs;
         _mesh.triangles = tris;
         _mesh.RecalculateNormals();
+    }
+
+    /// <summary>
+    /// 吸引対象オブジェクトの登録
+    /// </summary>
+    /// <param name="obj">登録したいオブジェクト</param>
+    public void RegisterSuckableObject(ISuckable obj)
+    {
+        Suckables.Add(obj);
+        Debug.Log("登録！");
+    }
+
+    /// <summary>
+    /// 吸引対象オブジェクトの登録解除
+    /// </summary>
+    /// <param name="obj">解除したいオブジェクト</param>
+    public void RemoveSuckableObject(ISuckable obj)
+    {
+        Suckables.Remove(obj);
+        Debug.Log("解除！");
+    }
+
+    public void RemoveAllSuckable()
+    {
+        Suckables.RemoveWhere(x => x.IsSuction);
     }
 }
