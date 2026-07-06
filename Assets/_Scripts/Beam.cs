@@ -54,8 +54,8 @@ public class Beam : MonoBehaviour
 
         if(!isExpand)
         {
-            _collider.SetActive(false);
             RemoveAllSuckable();
+            _collider.SetActive(false);
         }
 
         IsUnfoldong = true;
@@ -120,7 +120,6 @@ public class Beam : MonoBehaviour
     public void RegisterSuckableObject(ISuckable obj)
     {
         Suckables.Add(obj);
-        Debug.Log("ìoò^ÅI");
     }
 
     /// <summary>
@@ -130,11 +129,14 @@ public class Beam : MonoBehaviour
     public void RemoveSuckableObject(ISuckable obj)
     {
         Suckables.Remove(obj);
-        Debug.Log("âèúÅI");
     }
 
     public void RemoveAllSuckable()
     {
-        Suckables.RemoveWhere(x => x.IsSuction);
+        foreach (var obj in Suckables)
+        {
+            obj.Solve();
+        }
+        Suckables.Clear();
     }
 }
