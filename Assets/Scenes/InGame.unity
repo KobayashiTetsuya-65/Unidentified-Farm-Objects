@@ -2321,6 +2321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickUp
   _ufo: {fileID: 1530931301}
+  _beam: {fileID: 225546528}
 --- !u!1 &1588372428
 GameObject:
   m_ObjectHideFlags: 0

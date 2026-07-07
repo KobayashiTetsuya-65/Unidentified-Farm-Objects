@@ -39,7 +39,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     public void PickUped()
     {
         ScoreManager.Instance.AddScore(_score);
-        GameManager.Instance.ChangeEnergy(-_energy);
+        GameManager.Instance.ChangeEnergy(_energy,true);
         gameObject.SetActive(false);
     }
 }

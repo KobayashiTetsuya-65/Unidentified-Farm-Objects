@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         if (_currentScene != SceneName.InGame) return;
 
-        ChangeEnergy(_decreaseTime);
+        ChangeEnergy(-_decreaseTime);
     }
 
     public void RegisterGauge(EnergyGauge gauge)
@@ -42,9 +42,9 @@ public class GameManager : MonoBehaviour
         EnergyGauge = gauge;
     }
 
-    public void ChangeEnergy(float delta)
+    public void ChangeEnergy(float delta,bool useAnimation = false)
     {
-        EnergyGauge.ChangeGauge(delta);
+        EnergyGauge.ChangeGauge(delta,useAnimation);
     }
 }
 public enum SceneName

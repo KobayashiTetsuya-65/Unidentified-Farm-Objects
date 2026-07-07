@@ -25,18 +25,15 @@ public class EnergyGauge : MonoBehaviour
     /// <summary>
     /// エネルギーゲージの変化
     /// </summary>
-    /// <param name="delta">減少量</param>
-    public void ChangeGauge(float delta)
+    /// <param name="delta">変化量</param>
+    public void ChangeGauge(float delta,bool useAnimation = false)
     {
         float start = _currenTime;
-        float goal = Mathf.Clamp(_currenTime - delta, 0f, _maxTime);
+        float goal = Mathf.Clamp(_currenTime + delta, 0f, _maxTime);
         _currenTime = goal;
 
-        if (_gaugeTween != null)
-            _gaugeTween.Kill();
-
         //増加演出
-        if (delta < 0f)
+        if (delta > 0f)
         {
             if (_seq != null)
                 _seq.Kill();
@@ -47,14 +44,25 @@ public class EnergyGauge : MonoBehaviour
         }
 
         //ゲージアニメーション
-        _gaugeTween = DOTween.To(() => start,
-            x =>
-            {
-                start = x;
-                _gaugeImg.fillAmount = start / _maxTime;
-            },
-            goal,
-            0.1f)
-            .SetEase(Ease.OutQuad);
+        if (useAnimation)
+        {
+
+            if (_gaugeTween != null)
+                _gaugeTween.Kill();
+
+            _gaugeTween = DOTween.To(() => start,
+                x =>
+                {
+                    start = x;
+                    _gaugeImg.fillAmount = start / _maxTime;
+                },
+                goal,
+                0.1f)
+                .SetEase(Ease.OutQuad);
+        }
+        else
+        {
+            _gaugeImg.fillAmount = _currenTime / _maxTime;
+        }
     }
 }
