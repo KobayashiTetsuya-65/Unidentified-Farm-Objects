@@ -7,23 +7,21 @@ public class Player : MonoBehaviour
     [Header("参照")]
     [SerializeField] private UFOAnimation _ufoView;
     [SerializeField] private Beam _beam;
+    [SerializeField] private Transform _tr;
+    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private PlayerInput _playerInput;
 
     [Header("パラメーター調整")]
     [SerializeField] private float _speed = 3f;
     [SerializeField] private float _beamExpandSpeed = 0.5f;
 
-    private PlayerInput _playerInput;
     private InputAction _moveAction,_catchAction;
-    private Transform _tr;
     private Vector2 _move;
     private bool _isMoving = true,_isCatch = false;
     private Coroutine _unfoldCorourine;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _tr = transform;
-
-        _playerInput = GetComponent<PlayerInput>();
         _moveAction = _playerInput.actions["Move"];
         _catchAction = _playerInput.actions["Jump"];
     }
@@ -36,11 +34,6 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-
-        if (_isCatch)
-        {
-            CattleMutilation();
-        }
     }
 
     private void PlayerInput()
@@ -66,14 +59,10 @@ public class Player : MonoBehaviour
     private void Move()
     {
         Vector3 move = new Vector3(_move.x * 0.5f + _move.y * 0.5f, 0f, -_move.x * 0.5f + _move.y * 0.5f);
-        _tr.position += move.normalized * _speed * Time.deltaTime;
+        _rb.MovePosition(_rb.position + move.normalized * _speed * Time.deltaTime);
         _ufoView.ChangeDirection(move.normalized);
     }
 
-    private void CattleMutilation()
-    {
-
-    }
 
     private IEnumerator WaitUnfolding()
     {

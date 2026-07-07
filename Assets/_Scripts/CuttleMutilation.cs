@@ -10,6 +10,10 @@ public class CuttleMutilation : MonoBehaviour
         _collider = GetComponent<CapsuleCollider>();
     }
 
+    private void OnDisable()
+    {
+        _beam.RemoveAllSuckable();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(other.TryGetComponent<ISuckable>(out var component))
@@ -23,6 +27,7 @@ public class CuttleMutilation : MonoBehaviour
         if (other.TryGetComponent<ISuckable>(out var component))
         {
             _beam.RemoveSuckableObject(component);
+            component.Solve();
         }
     }
 }
