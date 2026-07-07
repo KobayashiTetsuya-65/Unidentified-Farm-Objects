@@ -34,11 +34,6 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-
-        if (_isCatch)
-        {
-            CattleMutilation();
-        }
     }
 
     private void PlayerInput()
@@ -68,10 +63,6 @@ public class Player : MonoBehaviour
         _ufoView.ChangeDirection(move.normalized);
     }
 
-    private void CattleMutilation()
-    {
-
-    }
 
     private IEnumerator WaitUnfolding()
     {

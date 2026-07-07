@@ -54,7 +54,6 @@ public class Beam : MonoBehaviour
 
         if(!isExpand)
         {
-            RemoveAllSuckable();
             _collider.SetActive(false);
         }
 
