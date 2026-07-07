@@ -5,6 +5,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
 {
     [Header("ƒpƒ‰ƒ[ƒ^")]
     [SerializeField] private int _score = 100;
+    [SerializeField] private float _energy = 180f;
     [SerializeField] private float _weight = 5f;
     [SerializeField] private float _pendulumMag = 1f;
     [SerializeField] protected Transform _tr;
@@ -38,6 +39,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     public void PickUped()
     {
         ScoreManager.Instance.AddScore(_score);
+        GameManager.Instance.ChangeEnergy(_energy,true);
         gameObject.SetActive(false);
     }
 }
