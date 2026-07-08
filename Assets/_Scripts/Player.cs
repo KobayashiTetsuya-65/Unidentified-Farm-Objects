@@ -7,13 +7,14 @@ public class Player : MonoBehaviour
     [Header("参照")]
     [SerializeField] private UFOAnimation _ufoView;
     [SerializeField] private Beam _beam;
-    [SerializeField] private Transform _tr;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private PlayerInput _playerInput;
 
     [Header("パラメーター調整")]
     [SerializeField] private float _speed = 3f;
     [SerializeField] private float _beamExpandSpeed = 0.5f;
+    [SerializeField] private Vector2 _fieldMin = new(-10f, -10f);
+    [SerializeField] private Vector2 _fieldMax = new(10f, 10f);
 
     private InputAction _moveAction,_catchAction;
     private Vector2 _move;
@@ -65,7 +66,10 @@ public class Player : MonoBehaviour
     private void Move()
     {
         Vector3 move = new Vector3(_move.x * 0.5f + _move.y * 0.5f, 0f, -_move.x * 0.5f + _move.y * 0.5f);
-        _rb.MovePosition(_rb.position + move.normalized * _speed * Time.deltaTime);
+        Vector3 next = _rb.position + move.normalized * _speed * Time.deltaTime;
+        next.x = Mathf.Clamp(next.x, _fieldMin.x, _fieldMax.x);
+        next.z = Mathf.Clamp(next.z, _fieldMin.y, _fieldMax.y);
+        _rb.MovePosition(next);
         _ufoView.ChangeDirection(move.normalized);
     }
 

@@ -13,10 +13,17 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
 
     bool ISuckable.IsSuction { get => _isSuction; }
     protected bool _isSuction = false;
+    protected GameManager _gameManager;
+    protected ScoreManager _scoreManager;
 
     protected virtual void Awake()
     {
 
+    }
+    protected virtual void Start()
+    {
+        _gameManager = GameManager.Instance;
+        _scoreManager = ScoreManager.Instance;
     }
     public void Suction(Vector3 beamCenter, float power)
     {
@@ -38,8 +45,8 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
 
     public void PickUped()
     {
-        ScoreManager.Instance.AddScore(_score);
-        GameManager.Instance.ChangeEnergy(_energy,true);
+        _scoreManager.AddScore(_score);
+        _gameManager.ChangeEnergy(_energy,true);
         gameObject.SetActive(false);
     }
 }
