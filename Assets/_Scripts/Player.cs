@@ -76,4 +76,9 @@ public class Player : MonoBehaviour
         _isCatch = false;
         _beam.BeamAnimation(_beamExpandSpeed, _isCatch);
     }
+
+    public void FinishUFOAnimation(System.Action onComplete = null)
+    {
+        _ufoView.BackAnimation(onComplete);
+    }
 }

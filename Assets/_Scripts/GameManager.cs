@@ -17,10 +17,8 @@ public class GameManager : MonoBehaviour
 
             if(_currentScene == SceneName.Result)
             {
-                //帰還演出
-
-
-                ScoreManager.Instance.DisplayResult();
+                ScoreManager scoreManager = ScoreManager.Instance;
+                scoreManager.ResultScore();
 
                 return;
             }
@@ -88,8 +86,8 @@ public class GameManager : MonoBehaviour
     public void Pouse(bool isPouse)
     {
         IsStop = isPouse;
-        Debug.Log("終了！！！");
     }
+
     public void SceneChange(SceneName name)
     {
         if (_isFade) return;
@@ -107,6 +105,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentScene = scene;
     }
+
     /// <summary>
     /// フェードする
     /// </summary>

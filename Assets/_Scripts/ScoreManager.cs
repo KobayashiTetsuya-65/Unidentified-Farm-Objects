@@ -14,6 +14,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private GameObject _scorePanel;
     [SerializeField] private Image _readyImg;
     [SerializeField] private Image _goImg;
+    [SerializeField] private Image _finishImg;
 
     [Header("ƒpƒ‰ƒ[ƒ^")]
     [SerializeField] private float _duration = 0.3f;
@@ -56,6 +57,7 @@ public class ScoreManager : MonoBehaviour
         _readyImg.gameObject.SetActive(false);
         _goImg.gameObject.SetActive(false);
         _resultPanel.SetActive(false);
+        _finishImg.gameObject.SetActive(false);
     }
 
     public void AddScore(int delta)
@@ -86,9 +88,32 @@ public class ScoreManager : MonoBehaviour
             });
     }
 
-    public void DisplayResult()
+    public void FinishAnimation(System.Action onComplete = null)
+    {
+        _finishImg.gameObject.SetActive(true);
+        _finishImg.color = new Color(1f, 1f, 1f, 0f);
+        _finishImg.rectTransform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(_finishImg.DOFade(1f, 0.1f));
+        seq.Join(_finishImg.rectTransform.DOScale(1f, 0.45f).SetEase(Ease.OutBack));
+        seq.AppendInterval(1.0f);
+        seq.Append(_finishImg.DOFade(0f, 0.2f))
+            .OnComplete(() =>
+            {
+                _finishImg.gameObject.SetActive(false);
+                onComplete?.Invoke();
+            });
+    }
+
+    public void DisplayResult(System.Action onComplete = null)
     {
         _resultPanel.SetActive(true);
+        onComplete?.Invoke();
+    }
+
+    public void ResultScore()
+    {
         int score = 0;
         DOTween.To(() => score,
             x =>

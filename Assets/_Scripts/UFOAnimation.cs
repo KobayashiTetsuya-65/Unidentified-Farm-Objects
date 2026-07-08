@@ -10,6 +10,7 @@ public class UFOAnimation : MonoBehaviour
     [SerializeField] private float _rotateDur = 0.1f;
     [SerializeField] private float _getDur = 0.3f;
     [SerializeField] private float _getScale = 1.2f;
+    [SerializeField] private Vector2 _returnPosYZ;
 
     private Sequence _getSeq;
     private Vector3 _scale;
@@ -37,6 +38,16 @@ public class UFOAnimation : MonoBehaviour
         _getSeq = DOTween.Sequence();
         _getSeq.Append(_tr.DOScale(_scale * _getScale, _getDur * 0.7f)).SetEase(Ease.OutQuart);
         _getSeq.Append(_tr.DOScale(_scale,_getDur * 0.3f)).SetEase(Ease.InOutQuart);
-        //_getSeq.Join(_tr.DOShakeRotation(_getDur * 0.5f,30,10,50));
+    }
+
+    public void BackAnimation(System.Action onComplete = null)
+    {
+        Sequence seq = DOTween.Sequence();
+        seq.Append(_tr.DOMoveY(_returnPosYZ.x, 1f))
+            .Join(_tr.DOMoveZ(_returnPosYZ.y,1f))
+            .OnComplete(() =>
+            {
+                onComplete?.Invoke();
+            });
     }
 }
