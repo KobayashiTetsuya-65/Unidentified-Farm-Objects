@@ -25,6 +25,7 @@ public class Beam : MonoBehaviour
 
     private Mesh _mesh;
     private Tween _tween;
+    private GameManager _gameManager;
 
     void Awake()
     {
@@ -33,8 +34,14 @@ public class Beam : MonoBehaviour
         GetComponent<MeshFilter>().mesh = _mesh;
         _collider.SetActive(false);
     }
+    private void Start()
+    {
+        _gameManager = GameManager.Instance;
+    }
     private void FixedUpdate()
     {
+        if (_gameManager.IsStop) return;
+
         foreach (var obj in Suckables)
         {
             obj.Suction(_center.position,_power);

@@ -19,9 +19,11 @@ public class Player : MonoBehaviour
     private Vector2 _move;
     private bool _isMoving = true,_isCatch = false;
     private Coroutine _unfoldCorourine;
+    private GameManager _gameManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _gameManager = GameManager.Instance;
         _moveAction = _playerInput.actions["Move"];
         _catchAction = _playerInput.actions["Jump"];
     }
@@ -29,10 +31,14 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_gameManager.IsStop) return;
+
         PlayerInput();
     }
     private void FixedUpdate()
     {
+        if (_gameManager.IsStop) return;
+
         Move();
     }
 

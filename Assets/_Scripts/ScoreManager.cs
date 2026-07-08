@@ -32,7 +32,8 @@ public class ScoreManager : MonoBehaviour
                     _scoreText.text = $"{start:D9}";
                 },
                 goal,
-                _duration);
+                _duration)
+                .SetLink(gameObject);
         }
     }
 
@@ -64,6 +65,7 @@ public class ScoreManager : MonoBehaviour
                 _resultScore.text = $"{score:D9}";
             },
             CurrentScore,
-            _resultDuration);
+            _resultDuration)
+            .SetLink(gameObject);
     }
 }
