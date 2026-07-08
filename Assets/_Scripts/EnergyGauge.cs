@@ -19,6 +19,7 @@ public class EnergyGauge : MonoBehaviour
     private Tween _gaugeTween;
     private GameManager _gameManager;
     private Sequence _seq;
+    private bool _isFinish = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -69,8 +70,10 @@ public class EnergyGauge : MonoBehaviour
             _gaugeImg.fillAmount = _currenTime / _maxTime;
         }
 
-        if(_currenTime <= 0)
+        if(_currenTime <= 0 && !_isFinish)
         {
+            _isFinish = true;
+
             ScoreManager scoreManager = ScoreManager.Instance;
             _gameManager.Pouse(true);
             _beam.BeamAnimation(0.2f, false);
