@@ -52,7 +52,7 @@ public class Beam : MonoBehaviour
     /// </summary>
     /// <param name="duration">“WŠJŽžŠÔ</param>
     /// <param name="isExpand">“WŠJ‚·‚é</param>
-    public void BeamAnimation(float duration, bool isExpand)
+    public void BeamAnimation(float duration, bool isExpand,System.Action onComplete = null)
     {
         if (_tween != null)
         {
@@ -82,6 +82,8 @@ public class Beam : MonoBehaviour
                 IsUnfoldong = false;
                 if (isExpand)
                     _collider.SetActive(true);
+
+                onComplete?.Invoke();
             });
     }
 
