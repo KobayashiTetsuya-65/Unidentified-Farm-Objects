@@ -15,11 +15,13 @@ public class EnergyGauge : MonoBehaviour
 
     private float _currenTime;
     private Tween _gaugeTween;
+    private GameManager _gameManager;
     private Sequence _seq;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameManager.Instance.RegisterGauge(this);
+        _gameManager = GameManager.Instance;
+        _gameManager.RegisterGauge(this);
         _currenTime = _maxTime;
     }
     /// <summary>
@@ -63,6 +65,14 @@ public class EnergyGauge : MonoBehaviour
         else
         {
             _gaugeImg.fillAmount = _currenTime / _maxTime;
+        }
+
+        if(_currenTime <= 0)
+        {
+            _gameManager.Pouse(true);
+            _gameManager.FadePanel(false,
+                () => _gameManager.FadePanel(true,
+                () => _gameManager.ChangeCurrentScene(SceneName.Result)));
         }
     }
 }
