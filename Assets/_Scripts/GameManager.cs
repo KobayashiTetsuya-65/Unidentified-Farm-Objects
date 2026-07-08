@@ -7,7 +7,27 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public bool IsStop{ get; private set; } = false;
     public EnergyGauge EnergyGauge { get; private set; }
+    public SceneName CurrentScene
+    {
+        get => _currentScene;
+        private set
+        {
+            _currentScene = value;
+
+            if(_currentScene == SceneName.Result)
+            {
+                //帰還演出
+
+                //リザルト表示
+                ScoreManager.Instance.DisplayResult();
+            }
+
+            //初期化
+            IsStop = false;
+        }
+    }
 
     [SerializeField] private Canvas _canvas;
     [SerializeField] private Image _fadePanel;
@@ -28,7 +48,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         Application.targetFrameRate = 60;
         _canvas.sortingOrder = 9999;
-        _currentScene = _startScene;
+        CurrentScene = _startScene;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,7 +59,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_currentScene != SceneName.InGame) return;
+        if (CurrentScene != SceneName.InGame) return;
+
+        if (IsStop) return;
 
         ChangeEnergy(-_decreaseTime * Time.deltaTime);
     }
@@ -54,6 +76,11 @@ public class GameManager : MonoBehaviour
         EnergyGauge.ChangeGauge(delta,useAnimation);
     }
 
+    public void Pouse(bool isPouse)
+    {
+        IsStop = isPouse;
+        Debug.Log("終了！！！");
+    }
     public void SceneChange(SceneName name)
     {
         if (_isFade) return;
@@ -61,10 +88,15 @@ public class GameManager : MonoBehaviour
         FadePanel(false, async () =>
         {
             await SceneManager.LoadSceneAsync($"{name}");
-            _currentScene = name;
+            CurrentScene = name;
             _isFade = false;
             FadePanel(true);
         });
+    }
+
+    public void ChangeCurrentScene(SceneName scene)
+    {
+        CurrentScene = scene;
     }
     /// <summary>
     /// フェードする

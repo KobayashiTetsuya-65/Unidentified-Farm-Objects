@@ -8,8 +8,11 @@ public class ScoreManager : MonoBehaviour
 
     [Header("ŽQÆ")]
     [SerializeField] private TextMeshProUGUI _scoreText;
+    [SerializeField] private GameObject _resultPanel;
+    [SerializeField] private TextMeshProUGUI _resultScore;
 
     [SerializeField] private float _duration = 0.3f;
+    [SerializeField] private float _resultDuration = 2f;
     public int CurrentScore
     {
         get => _currentScore;
@@ -48,5 +51,19 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int delta)
     {
         CurrentScore = Mathf.Max(0, CurrentScore + delta);
+    }
+
+    public void DisplayResult()
+    {
+        _resultPanel.SetActive(true);
+        int score = 0;
+        DOTween.To(() => score,
+            x =>
+            {
+                score = x;
+                _resultScore.text = $"{score:D9}";
+            },
+            CurrentScore,
+            _resultDuration);
     }
 }

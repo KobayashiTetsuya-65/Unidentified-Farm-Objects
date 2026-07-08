@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SceneChangeButton : MonoBehaviour
+public class GameStartButton : MonoBehaviour
 {
+    [SerializeField] private TitleUFO _ufo;
     [SerializeField] private Button _button;
     [SerializeField] private SceneName _sceneName;
 
@@ -13,9 +14,8 @@ public class SceneChangeButton : MonoBehaviour
         _button.onClick.AddListener(() =>
         {
             if (_isPush) return;
-
             _isPush = true;
-            GameManager.Instance.SceneChange(_sceneName);
+            _ufo.StartAnimation(() => GameManager.Instance.SceneChange(_sceneName));
         });
     }
 }
