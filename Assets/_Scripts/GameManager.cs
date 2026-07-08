@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
     public bool IsStop{ get; private set; } = false;
     public EnergyGauge EnergyGauge { get; private set; }
     public SceneName CurrentScene
@@ -20,8 +19,18 @@ public class GameManager : MonoBehaviour
             {
                 //帰還演出
 
-                //リザルト表示
+
                 ScoreManager.Instance.DisplayResult();
+
+                return;
+            }
+            else if(_currentScene == SceneName.InGame)
+            {
+                IsStop = true;
+
+                //開始演出
+                ScoreManager.Instance.StartAnimation();
+                return;
             }
 
             //初期化
