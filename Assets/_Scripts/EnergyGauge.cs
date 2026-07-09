@@ -44,7 +44,7 @@ public class EnergyGauge : MonoBehaviour
                 _seq.Kill();
 
             _seq = DOTween.Sequence();
-            _seq.Append(_rt.DOScale(1.1f, 0.2f));
+            _seq.Append(_rt.DOScale(1.05f, 0.2f));
             _seq.Append(_rt.DOScale(1.0f, 0.1f)).SetEase(Ease.InOutQuad);
         }
 
