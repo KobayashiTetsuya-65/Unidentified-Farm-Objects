@@ -503,7 +503,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1031529724}
   m_Father: {fileID: 1530931298}
@@ -529,6 +529,8 @@ MonoBehaviour:
   _maxBottomRadius: 4
   _maxIntensity: 130
   _power: 20
+  _lightMax: {x: 76, y: 80}
+  _lightMin: {x: 25, y: 30}
 --- !u!23 &225546529
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1748,6 +1750,8 @@ MonoBehaviour:
   _readyImg: {fileID: 1231863928}
   _goImg: {fileID: 316713859}
   _finishImg: {fileID: 1233744360}
+  _ufo: {fileID: 674314401}
+  _beam: {fileID: 225546528}
   _duration: 0.3
   _resultDuration: 2
 --- !u!4 &703551312

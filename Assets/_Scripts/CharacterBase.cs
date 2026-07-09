@@ -140,6 +140,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     public void PickUped()
     {
         _scoreManager.AddScore(_score);
+        _scoreManager.Grow(_score);
         _gameManager.ChangeEnergy(_energy,true);
         _onDespawn?.Invoke(this);
     }
