@@ -55,12 +55,11 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         Application.targetFrameRate = 60;
         _canvas.sortingOrder = 9999;
-        CurrentScene = _startScene;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        CurrentScene = _startScene;
     }
 
     // Update is called once per frame
