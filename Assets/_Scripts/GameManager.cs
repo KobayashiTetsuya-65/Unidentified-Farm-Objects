@@ -139,5 +139,6 @@ public enum CharacterType : int
 {
     Pig,
     NormalPeople,
-    Police
+    Police,
+    Zombi
 }
