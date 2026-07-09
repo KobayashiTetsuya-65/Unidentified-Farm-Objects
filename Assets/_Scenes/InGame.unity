@@ -2896,6 +2896,11 @@ MonoBehaviour:
   _energy: 180
   _weight: 5
   _pendulumMag: 4
+  _speed: 2
+  _behaveTimerMin: 1
+  _behaveTimeMax: 5
+  _behaveProbability: 0.5
+  _freezeRotateXZ: 1
   _tr: {fileID: 1335816921}
   _rb: {fileID: 1335816919}
   _animator: {fileID: 796062560}
@@ -3196,6 +3201,11 @@ MonoBehaviour:
   _energy: 180
   _weight: 5
   _pendulumMag: 4
+  _speed: 2
+  _behaveTimerMin: 1
+  _behaveTimeMax: 5
+  _behaveProbability: 0.5
+  _freezeRotateXZ: 1
   _tr: {fileID: 1454510253}
   _rb: {fileID: 1454510256}
   _animator: {fileID: 1992085278}
@@ -4588,6 +4598,10 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 1166791109975069684}
+    - target: {fileID: 3840878955928788335, guid: 25cf1c70368ce224abca78a192cf1947, type: 3}
+      propertyPath: _freezeRotateXZ
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

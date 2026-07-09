@@ -72,7 +72,7 @@ public class ScoreManager : MonoBehaviour
         seq.AppendCallback(()  => _readyImg.gameObject.SetActive(true));
         seq.Append(_readyImg.DOFade(1f, 0.2f));
         seq.Join(_readyImg.rectTransform.DOScale(1f, 0.2f));
-        seq.Append(_readyImg.rectTransform.DOScale(1.5f, 2.5f));
+        seq.Append(_readyImg.rectTransform.DOScale(1.5f, 2.0f));
         seq.Append(_readyImg.rectTransform.DOScale(0.1f, 0.1f));
         seq.AppendCallback(() =>
         {
