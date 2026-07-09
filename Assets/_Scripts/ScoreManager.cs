@@ -15,6 +15,8 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private Image _readyImg;
     [SerializeField] private Image _goImg;
     [SerializeField] private Image _finishImg;
+    [SerializeField] private Transform _ufo;
+    [SerializeField] private Beam _beam;
 
     [Header("ƒpƒ‰ƒ[ƒ^")]
     [SerializeField] private float _duration = 0.3f;
@@ -45,6 +47,7 @@ public class ScoreManager : MonoBehaviour
 
     private Tween _scoreTween;
     private int _currentScore = 0;
+    private int _growCount = 0;
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -124,5 +127,14 @@ public class ScoreManager : MonoBehaviour
             CurrentScore,
             _resultDuration)
             .SetLink(gameObject);
+    }
+
+    public void Grow(int delta)
+    {
+        _growCount += delta >= 0 ? 1 : -1;
+        float scale = Mathf.Min(1f + _growCount * 0.05f, 3f);
+        _ufo.localScale = Vector3.one * scale;
+        _beam.PowerUp(scale);
+        _beam.transform.localScale = new Vector3(1.25f, 1.25f / scale, 1.25f);
     }
 }

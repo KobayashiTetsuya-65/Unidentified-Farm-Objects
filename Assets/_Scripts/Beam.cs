@@ -22,10 +22,14 @@ public class Beam : MonoBehaviour
     [SerializeField] private float _maxBottomRadius = 3f;
     [SerializeField] private float _maxIntensity = 120f;
     [SerializeField] private float _power = 5f;
+    [SerializeField] private Vector2 _lightMax;
+    [SerializeField] private Vector2 _lightMin;
+    [SerializeField] private float _maxScale = 3f;
 
     private Mesh _mesh;
     private Tween _tween;
     private GameManager _gameManager;
+    private float _startPower;
 
     void Awake()
     {
@@ -33,6 +37,7 @@ public class Beam : MonoBehaviour
         _mesh.MarkDynamic();
         GetComponent<MeshFilter>().mesh = _mesh;
         _collider.SetActive(false);
+        _startPower = _power;
     }
     private void Start()
     {
@@ -146,5 +151,13 @@ public class Beam : MonoBehaviour
             obj.Solve();
         }
         Suckables.Clear();
+    }
+
+    public void PowerUp(float scale)
+    {
+        _power = _startPower * scale;
+        float t = Mathf.InverseLerp(1f, _maxScale, scale);
+        _light.spotAngle = Mathf.Lerp(_lightMin.y, _lightMax.y, t);
+        _light.innerSpotAngle = Mathf.Lerp(_lightMin.x,_lightMax.x, t);
     }
 }
