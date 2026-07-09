@@ -134,3 +134,10 @@ public enum SceneName
     InGame,
     Result
 }
+
+public enum CharacterType : int
+{
+    Pig,
+    NormalPeople,
+    Police
+}

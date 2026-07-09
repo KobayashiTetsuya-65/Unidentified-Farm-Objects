@@ -7,5 +7,4 @@ public class NormalPeople : CharacterBase
     {
         base.Start();
     }
-
 }

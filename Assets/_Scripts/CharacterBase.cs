@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -13,6 +14,9 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     [SerializeField] private float _behaveTimeMax = 5f;
     [SerializeField] private float _behaveProbability = 0.5f;
     [SerializeField] private bool _freezeRotateXZ = true;
+    [SerializeField] private float _rotateSpeed = 8f;
+    [SerializeField] private float _horizontalDamp = 1f;
+    [SerializeField] private bool _alignHeadToBeam = false;
 
     [Header("参照")]
     [SerializeField] protected Transform _tr;
@@ -25,6 +29,8 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     protected ScoreManager _scoreManager;
     private float _behaveTimer = 0;
     protected Vector3 _moveDir;
+    private float _fixedDeltaTime;
+    protected Action<CharacterBase> _onDespawn;
 
     protected virtual void Awake()
     {
@@ -49,28 +55,29 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     {
         if (!_isSuction)
         {
+            _fixedDeltaTime = Time.fixedDeltaTime;
             Behavior();
         }
-        else
-        {
-            ChangeDirection(_rb.linearVelocity.normalized);
-        }
+    }
+    public virtual void Init(Action<CharacterBase> onDespown)
+    {
+        _onDespawn = onDespown;
     }
 
     protected virtual void Behavior()
     {
-        _behaveTimer -= Time.fixedDeltaTime;
+        _behaveTimer -= _fixedDeltaTime;
         if(_behaveTimer <= 0)
         {
             //行動分岐
-            _moveDir = (Random.value < _behaveProbability)? Vector3.zero
-                : new Vector3(Random.Range(-1f,1f),0f,Random.Range(-1f,1f)).normalized;
+            _moveDir = (UnityEngine.Random.value < _behaveProbability)? Vector3.zero
+                : new Vector3(UnityEngine.Random.Range(-1f,1f),0f,UnityEngine.Random.Range(-1f,1f)).normalized;
 
             //タイマー再設定
-            _behaveTimer = Random.Range(_behaveTimerMin, _behaveTimeMax);
+            _behaveTimer = UnityEngine.Random.Range(_behaveTimerMin, _behaveTimeMax);
         }
 
-        _rb.MovePosition(_rb.position + _moveDir * _speed * Time.fixedDeltaTime);
+        _rb.MovePosition(_rb.position + _moveDir * _speed * _fixedDeltaTime);
         ChangeDirection(_moveDir);
     }
     protected virtual void ChangeDirection(Vector3 moveDir)
@@ -83,31 +90,42 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
             if (flat.sqrMagnitude < 0.001f) return;
 
             Quaternion target = Quaternion.LookRotation(flat);
-            _tr.rotation = Quaternion.Slerp(_tr.rotation, target, 0.1f);
+            _tr.rotation = Quaternion.Slerp(_tr.rotation, target, _rotateSpeed * _fixedDeltaTime);
         }
         else
         {
             Quaternion target = Quaternion.LookRotation(moveDir);
-            _tr.rotation = Quaternion.Slerp(_tr.rotation, target, 0.1f);
+            _tr.rotation = Quaternion.Slerp(_tr.rotation, target, _rotateSpeed * _fixedDeltaTime);
         }
     }
     public void Suction(Vector3 beamCenter, float power)
     {
-        _isSuction = true;
-
-        _rb.useGravity = false;
-        Vector3 suck = (beamCenter - _tr.position).normalized;
-        Vector3 pendulum = new Vector3(beamCenter.x - _tr.position.x,0f,
-            beamCenter.z - _tr.position.z).normalized * _pendulumMag;
-        _rb.AddForce((suck + pendulum) * (power / _weight),
-            ForceMode.Acceleration);
-
         if (!_isSuction)
         {
             _isSuction = true;
-            _rb.constraints = RigidbodyConstraints.None;
-            _rb.AddTorque(Random.onUnitSphere * 1f, ForceMode.VelocityChange);
+            if (!_alignHeadToBeam)
+            {
+                _rb.constraints = RigidbodyConstraints.None;
+                _rb.AddTorque(UnityEngine.Random.onUnitSphere * 1f, ForceMode.VelocityChange);
+            }
         }
+
+        _rb.useGravity = false;
+        Vector3 toCenter = beamCenter - _rb.position;
+        Vector3 horizontal = new Vector3(toCenter.x, 0f, toCenter.z);
+        Vector3 hVel = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+
+        Vector3 force = Vector3.up * power + horizontal * _pendulumMag  - hVel * _horizontalDamp;
+
+        _rb.AddForce(force / _weight, ForceMode.Acceleration);
+
+        if (_alignHeadToBeam)
+        {
+            Quaternion target = Quaternion.FromToRotation(Vector3.up, toCenter.normalized)
+                              * Quaternion.Euler(0f, _tr.eulerAngles.y, 0f);
+            _tr.rotation = Quaternion.Slerp(_tr.rotation, target, _rotateSpeed * _fixedDeltaTime);
+        }
+
     }
     public void Solve()
     {
@@ -123,6 +141,16 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     {
         _scoreManager.AddScore(_score);
         _gameManager.ChangeEnergy(_energy,true);
-        gameObject.SetActive(false);
+        _onDespawn?.Invoke(this);
+    }
+
+    public void ResetState()
+    {
+        _behaveTimer = 0;
+        _moveDir = Vector3.zero;
+        _rb.linearVelocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+        _rb.constraints = RigidbodyConstraints.FreezeRotation;
+        _rb.useGravity = true;
     }
 }
