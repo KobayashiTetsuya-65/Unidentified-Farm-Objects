@@ -10,6 +10,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     [SerializeField] private float _pendulumMag = 1f;
     [SerializeField] protected Transform _tr;
     [SerializeField] protected Rigidbody _rb;
+    [SerializeField] private Animator _animator;
 
     bool ISuckable.IsSuction { get => _isSuction; }
     protected bool _isSuction = false;
@@ -25,6 +26,15 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
         _gameManager = GameManager.Instance;
         _scoreManager = ScoreManager.Instance;
     }
+    protected virtual void Update()
+    {
+        _animator.SetBool("IsSuction", _isSuction);
+        if (!_isSuction)
+        {
+            _animator.SetFloat("Speed", _rb.linearVelocity.magnitude);
+        }
+    }
+
     public void Suction(Vector3 beamCenter, float power)
     {
         _isSuction = true;

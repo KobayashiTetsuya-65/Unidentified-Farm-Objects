@@ -1274,8 +1274,8 @@ MonoBehaviour:
   _playerInput: {fileID: 426625140}
   _speed: 13
   _beamExpandSpeed: 0.3
-  _fieldMin: {x: -193, y: -180}
-  _fieldMax: {x: 160, y: 160}
+  _fieldMin: {x: 75, y: 80}
+  _fieldMax: {x: 430, y: 450}
 --- !u!54 &426625142
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1806,6 +1806,11 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5903451119183343922, guid: cef6de11ad9c348f1902c4033bed1701, type: 3}
   m_PrefabInstance: {fileID: 1530931297}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &796062560 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: fdfb5e1c4a1b339489c0eddebb1ab872, type: 3}
+  m_PrefabInstance: {fileID: 1335816916}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &864637494
 GameObject:
@@ -2893,6 +2898,7 @@ MonoBehaviour:
   _pendulumMag: 4
   _tr: {fileID: 1335816921}
   _rb: {fileID: 1335816919}
+  _animator: {fileID: 796062560}
 --- !u!54 &1335816919
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3192,6 +3198,7 @@ MonoBehaviour:
   _pendulumMag: 4
   _tr: {fileID: 1454510253}
   _rb: {fileID: 1454510256}
+  _animator: {fileID: 1992085278}
 --- !u!136 &1454510255
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4251,6 +4258,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &1992085278 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7447163605599512414, guid: 907fd825e3988774caab4234b943bf44, type: 3}
+  m_PrefabInstance: {fileID: 1454510251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2085935963
 GameObject:
   m_ObjectHideFlags: 0
@@ -4572,11 +4584,20 @@ PrefabInstance:
       propertyPath: _energy
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 3840878955928788335, guid: 25cf1c70368ce224abca78a192cf1947, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 1166791109975069684}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25cf1c70368ce224abca78a192cf1947, type: 3}
+--- !u!95 &1166791109975069684 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8952123965813163150, guid: 25cf1c70368ce224abca78a192cf1947, type: 3}
+  m_PrefabInstance: {fileID: 1166791109975069683}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
