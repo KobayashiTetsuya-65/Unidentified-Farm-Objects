@@ -3,6 +3,8 @@ using UnityEngine;
 public class SpawnerArea : MonoBehaviour
 {
     public int[] SpawnIndexs => _spawnIndexs;
+    [SerializeField] private Transform _player;
+    [SerializeField] private float _distance = 10f;
     [SerializeField] private BoxCollider _areaCol;
     [SerializeField] private SpawnTable[] _spawnData;
     [SerializeField] private float _spawnInterval = 3f;
@@ -40,7 +42,10 @@ public class SpawnerArea : MonoBehaviour
             if (_spawnIndexs[i] >= _spawnData[i].Max) continue;
 
             int index = i;
-            CharacterBase cb = _spawner.Spawn(_spawnData[i].CharacterType, SpawnPos());
+            Vector3 spawn = SpawnPos();
+            if(Vector3.Distance(_player.position,spawn) <= _distance) continue;
+
+            CharacterBase cb = _spawner.Spawn(_spawnData[i].CharacterType, spawn);
             if (cb == null) continue;
             _spawnIndexs[index]++;
             cb.Init(chara =>

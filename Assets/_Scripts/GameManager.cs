@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _decreaseTime = 1.0f;
     private SceneName _currentScene;
     private bool _isFade = false;
+    private AudioManager _audioManager;
 
     private void Awake()
     {
@@ -59,6 +60,8 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _audioManager = AudioManager.Instance;
+        _audioManager.PlayBGM(_audioManager.GetBGM(_startScene));
         CurrentScene = _startScene;
     }
 
@@ -91,12 +94,14 @@ public class GameManager : MonoBehaviour
     {
         if (_isFade) return;
         _isFade = true;
+        _audioManager.StopBGM();
         FadePanel(false, async () =>
         {
             await SceneManager.LoadSceneAsync($"{name}");
             CurrentScene = name;
             _isFade = false;
             FadePanel(true);
+            _audioManager.PlayBGM(_audioManager.GetBGM(name));
         });
     }
 
