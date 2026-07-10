@@ -3541,7 +3541,7 @@ MonoBehaviour:
     _characterType: 2
   - _max: 5
     _characterType: 3
-  _spawnInterval: 3
+  _spawnInterval: 2
 --- !u!1 &1905528307
 GameObject:
   m_ObjectHideFlags: 0

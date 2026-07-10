@@ -29,6 +29,7 @@ public class Beam : MonoBehaviour
     private Mesh _mesh;
     private Tween _tween;
     private GameManager _gameManager;
+    private AudioManager _audioManager;
     private float _startPower;
 
     void Awake()
@@ -42,6 +43,7 @@ public class Beam : MonoBehaviour
     private void Start()
     {
         _gameManager = GameManager.Instance;
+        _audioManager = AudioManager.Instance;
     }
     private void FixedUpdate()
     {
@@ -69,6 +71,7 @@ public class Beam : MonoBehaviour
             _collider.SetActive(false);
         }
 
+        _audioManager.PlaySE(isExpand ? SEType.BeamOn : SEType.BeamOff);
         IsUnfoldong = true;
         float start = isExpand ? 0f : 1f;
         float end = isExpand ? 1f : 0f;

@@ -63,10 +63,14 @@ public class ScoreManager : MonoBehaviour
         _resultPanel.SetActive(false);
         _finishImg.gameObject.SetActive(false);
     }
-
+    private void Start()
+    {
+        _audioManager = AudioManager.Instance;
+    }
     public void AddScore(int delta)
     {
         CurrentScore = Mathf.Max(0, CurrentScore + delta);
+        _audioManager.PlaySE(delta >= 0? SEType.Up : SEType.Down);
     }
 
     public void StartAnimation()
@@ -82,6 +86,7 @@ public class ScoreManager : MonoBehaviour
         {
             _readyImg.gameObject.SetActive(false);
             _goImg.gameObject.SetActive(true);
+            _audioManager.PlaySE(SEType.Start);
         });
         seq.Append(_goImg.rectTransform.DOScale(1.3f, 0.3f).SetEase(Ease.OutBack));
         seq.Append(_goImg.DOFade(0f, 0.1f))
@@ -94,6 +99,7 @@ public class ScoreManager : MonoBehaviour
 
     public void FinishAnimation(System.Action onComplete = null)
     {
+        _audioManager.PlaySE(SEType.Finish);
         _finishImg.gameObject.SetActive(true);
         _finishImg.color = new Color(1f, 1f, 1f, 0f);
         _finishImg.rectTransform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -112,7 +118,6 @@ public class ScoreManager : MonoBehaviour
 
     public void DisplayResult(System.Action onComplete = null)
     {
-        if (_audioManager == null) _audioManager = AudioManager.Instance;
         _audioManager.PlayBGM(_audioManager.GetBGM(SceneName.Result));
         _resultPanel.SetActive(true);
         onComplete?.Invoke();
