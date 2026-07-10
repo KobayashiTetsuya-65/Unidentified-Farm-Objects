@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 
 public enum SEType
 {
-    PickUp, Damage, BeamOn, BeamOff, Button, Finish
+    PickUp, Damage, BeamOn, BeamOff, Button, Finish,Warp,Start,Up,Down
 }
 public enum BGMType
 {

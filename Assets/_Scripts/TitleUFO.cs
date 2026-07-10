@@ -36,7 +36,8 @@ public class TitleUFO : MonoBehaviour
         _tr.DOKill();
         Sequence seq = DOTween.Sequence();
         seq.Append(_tr.DOLocalMove(_backPos, _duration * 0.5f));
-        seq.Append(_tr.DOLocalMove(_earthPos, _duration * 0.5f))
-            .OnComplete(() => onComplete?.Invoke());
+        seq.AppendCallback(() => AudioManager.Instance.PlaySE(SEType.Warp));
+        seq.Append(_tr.DOLocalMove(_earthPos, _duration * 0.5f));
+        seq.OnComplete(() => onComplete?.Invoke());
     }
 }

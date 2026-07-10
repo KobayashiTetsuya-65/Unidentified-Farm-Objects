@@ -13,6 +13,7 @@ public class GameStartButton : MonoBehaviour
     {
         _button.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySE(SEType.Button);
             if (_isPush) return;
             _isPush = true;
             _ufo.StartAnimation(() => GameManager.Instance.SceneChange(_sceneName));

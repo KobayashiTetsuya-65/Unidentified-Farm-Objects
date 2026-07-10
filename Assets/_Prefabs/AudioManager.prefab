@@ -49,7 +49,25 @@ MonoBehaviour:
   _mixer: {fileID: 24100000, guid: 930ca94bca711b14d8d2a001998fdcb4, type: 2}
   _bgmSource: {fileID: 6264181566251660563}
   _seSource: {fileID: -9107092014942105624}
-  _seDatas: []
+  _seDatas:
+  - Type: 0
+    Clip: {fileID: 8300000, guid: 7ab454be821698e4ba2da9c2c7ef7761, type: 3}
+  - Type: 2
+    Clip: {fileID: 8300000, guid: 8bbf670c66bdc8547a11c6915f98cdae, type: 3}
+  - Type: 3
+    Clip: {fileID: 8300000, guid: a9f5a11d9fb87c445986a7377c90a96a, type: 3}
+  - Type: 5
+    Clip: {fileID: 8300000, guid: 7c7ebabedf6a9c748a92ce16b3a0e681, type: 3}
+  - Type: 6
+    Clip: {fileID: 8300000, guid: 4d1b28f5aea0c29418ec872433ede0b7, type: 3}
+  - Type: 7
+    Clip: {fileID: 8300000, guid: 0df11865ae155244d92bfe8eb2f9fe5e, type: 3}
+  - Type: 4
+    Clip: {fileID: 8300000, guid: 307bb0d64e0721c4e9d650353671d07c, type: 3}
+  - Type: 8
+    Clip: {fileID: 8300000, guid: ede4687f1bc59c848a9a74e47ad50b5d, type: 3}
+  - Type: 9
+    Clip: {fileID: 8300000, guid: 90c9e6cecc58fdd46b9b3f4e059b560a, type: 3}
   _bgmDatas:
   - Type: 1
     Clip: {fileID: 8300000, guid: 682a7131fe868fa44bd1007fde1e7f8b, type: 3}

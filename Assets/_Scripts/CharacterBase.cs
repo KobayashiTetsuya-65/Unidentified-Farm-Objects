@@ -26,6 +26,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     bool ISuckable.IsSuction { get => _isSuction; }
     protected bool _isSuction = false;
     protected GameManager _gameManager;
+    protected AudioManager _audioManager;
     protected ScoreManager _scoreManager;
     private float _behaveTimer = 0;
     protected Vector3 _moveDir;
@@ -40,6 +41,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     {
         _gameManager = GameManager.Instance;
         _scoreManager = ScoreManager.Instance;
+        _audioManager = AudioManager.Instance;
     }
     protected virtual void Update()
     {
@@ -139,6 +141,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
 
     public void PickUped()
     {
+        _audioManager.PlaySE(SEType.PickUp);
         _scoreManager.AddScore(_score);
         _scoreManager.Grow(_score);
         _gameManager.ChangeEnergy(_energy,true);

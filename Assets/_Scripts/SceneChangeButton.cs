@@ -12,6 +12,7 @@ public class SceneChangeButton : MonoBehaviour
     {
         _button.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySE(SEType.Button);
             if (_isPush) return;
 
             _isPush = true;

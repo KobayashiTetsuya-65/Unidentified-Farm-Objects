@@ -42,6 +42,7 @@ public class UFOAnimation : MonoBehaviour
 
     public void BackAnimation(System.Action onComplete = null)
     {
+        AudioManager.Instance.PlaySE(SEType.Warp);
         Sequence seq = DOTween.Sequence();
         seq.Append(_tr.DOMoveY(_returnPosYZ.x, 1f))
             .Join(_tr.DOMoveZ(_returnPosYZ.y,1f))
