@@ -48,6 +48,7 @@ public class ScoreManager : MonoBehaviour
     private Tween _scoreTween;
     private int _currentScore = 0;
     private int _growCount = 0;
+    private AudioManager _audioManager;
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -111,6 +112,8 @@ public class ScoreManager : MonoBehaviour
 
     public void DisplayResult(System.Action onComplete = null)
     {
+        if (_audioManager == null) _audioManager = AudioManager.Instance;
+        _audioManager.PlayBGM(_audioManager.GetBGM(SceneName.Result));
         _resultPanel.SetActive(true);
         onComplete?.Invoke();
     }
