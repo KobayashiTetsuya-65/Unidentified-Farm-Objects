@@ -145,5 +145,6 @@ public enum CharacterType : int
     Pig,
     NormalPeople,
     Police,
-    Zombi
+    Zombi,
+    Bomb
 }

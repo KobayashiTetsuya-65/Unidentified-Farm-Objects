@@ -17,6 +17,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     [SerializeField] private float _rotateSpeed = 8f;
     [SerializeField] private float _horizontalDamp = 1f;
     [SerializeField] private bool _alignHeadToBeam = false;
+    [SerializeField] private bool _isMoveObject = false;
 
     [Header("éQè∆")]
     [SerializeField] protected Transform _tr;
@@ -45,6 +46,9 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     }
     protected virtual void Update()
     {
+        if (!_isMoveObject) return;
+        if (_animator == null) return;
+
         _animator.SetBool("IsSuction", _isSuction);
         if (!_isSuction)
         {
@@ -58,6 +62,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
         if (!_isSuction)
         {
             _fixedDeltaTime = Time.fixedDeltaTime;
+            if (!_isMoveObject) return;
             Behavior();
         }
     }

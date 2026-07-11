@@ -70,7 +70,7 @@ public class ScoreManager : MonoBehaviour
     public void AddScore(int delta)
     {
         CurrentScore = Mathf.Max(0, CurrentScore + delta);
-        _audioManager.PlaySE(delta >= 0? SEType.Up : SEType.Down);
+        _audioManager.PlaySE(delta > 0? SEType.Up : SEType.Down);
     }
 
     public void StartAnimation()

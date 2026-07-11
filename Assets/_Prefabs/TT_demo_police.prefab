@@ -154,6 +154,7 @@ MonoBehaviour:
   _rotateSpeed: 8
   _horizontalDamp: 1
   _alignHeadToBeam: 1
+  _isMoveObject: 1
   _tr: {fileID: 9220978537322647966}
   _rb: {fileID: 7719575315624036824}
   _animator: {fileID: 9220978537312878552}

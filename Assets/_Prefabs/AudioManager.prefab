@@ -68,6 +68,8 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: ede4687f1bc59c848a9a74e47ad50b5d, type: 3}
   - Type: 9
     Clip: {fileID: 8300000, guid: 90c9e6cecc58fdd46b9b3f4e059b560a, type: 3}
+  - Type: 10
+    Clip: {fileID: 8300000, guid: 761e8cd8dd5e0ed48ae6ddabb7bb1ec2, type: 3}
   _bgmDatas:
   - Type: 1
     Clip: {fileID: 8300000, guid: 682a7131fe868fa44bd1007fde1e7f8b, type: 3}

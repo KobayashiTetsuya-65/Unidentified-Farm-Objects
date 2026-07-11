@@ -4,6 +4,7 @@ public class PickUp : MonoBehaviour
 {
     [SerializeField] private UFOAnimation _ufo;
     [SerializeField] private Beam _beam;
+    [SerializeField] private ParticleSystem _particle;
 
     private GameManager _gamaManager;
     private void OnTriggerEnter(Collider other)
@@ -19,6 +20,13 @@ public class PickUp : MonoBehaviour
             component.Solve();
             component.PickUped();
             _ufo.GetAnimation();
+
+            if(other.TryGetComponent<Bomb>(out var bomb))
+            {
+                _particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                _particle.Play();
+                AudioManager.Instance.PlaySE(SEType.Bomb);
+            }
         }
     }
 }
