@@ -439,8 +439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44653095efca2784583a8694ceddd29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombi
-  _score: -250
-  _energy: -50
+  _score: 0
+  _energy: 0
   _weight: 5
   _pendulumMag: 5
   _speed: 1
@@ -451,6 +451,7 @@ MonoBehaviour:
   _rotateSpeed: 8
   _horizontalDamp: 1
   _alignHeadToBeam: 1
+  _isMoveObject: 1
   _tr: {fileID: 4285086171175260986}
   _rb: {fileID: 4143768618751535371}
   _animator: {fileID: 2529143344161159576}
