@@ -16,6 +16,7 @@
 /[Aa]ssets/_Free/
 /[Aa]ssets/BOXOPHOBIC/
 /[Aa]ssets/Plugins/
+/[Aa]ssets/Idyllic Fantasy Nature/
 *.log
 
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.

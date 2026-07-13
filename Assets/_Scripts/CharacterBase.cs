@@ -65,6 +65,13 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
             if (!_isMoveObject) return;
             Behavior();
         }
+
+        if(_tr.localPosition.y <= -100f)
+        {
+            _onDespawn?.Invoke(this);
+            if(_onDespawn == null)
+                gameObject.SetActive(false);
+        }
     }
     public virtual void Init(Action<CharacterBase> onDespown)
     {
@@ -144,7 +151,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
         _rb.useGravity = true;
     }
 
-    public void PickUped()
+    public virtual void PickUped()
     {
         _audioManager.PlaySE(SEType.PickUp);
         _scoreManager.AddScore(_score);
