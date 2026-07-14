@@ -151,6 +151,7 @@ MonoBehaviour:
   _tr: {fileID: 6150534294901932058}
   _rb: {fileID: 5845207944250699530}
   _animator: {fileID: 0}
+  _needPower: 50
 --- !u!136 &3557638464559877771
 CapsuleCollider:
   m_ObjectHideFlags: 0

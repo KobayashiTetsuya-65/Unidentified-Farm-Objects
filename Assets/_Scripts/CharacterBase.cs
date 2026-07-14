@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class CharacterBase : MonoBehaviour,ISuckable
 {
+    #region 変数宣言
     [Header("パラメータ")]
     [SerializeField] private int _score = 100;
     [SerializeField] private float _energy = 180f;
@@ -34,6 +35,8 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
     private float _fixedDeltaTime;
     protected Action<CharacterBase> _onDespawn;
 
+    #endregion
+    #region ライフサイクル
     protected virtual void Awake()
     {
 
@@ -73,6 +76,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
                 gameObject.SetActive(false);
         }
     }
+    #endregion
     public virtual void Init(Action<CharacterBase> onDespown)
     {
         _onDespawn = onDespown;
@@ -112,7 +116,7 @@ public abstract class CharacterBase : MonoBehaviour,ISuckable
             _tr.rotation = Quaternion.Slerp(_tr.rotation, target, _rotateSpeed * _fixedDeltaTime);
         }
     }
-    public void Suction(Vector3 beamCenter, float power)
+    public virtual void Suction(Vector3 beamCenter, float power)
     {
         if (!_isSuction)
         {

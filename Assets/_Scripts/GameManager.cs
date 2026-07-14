@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     private SceneName _currentScene;
     private bool _isFade = false;
     private AudioManager _audioManager;
+    public float _decrease;
 
     private void Awake()
     {
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour
         _audioManager = AudioManager.Instance;
         _audioManager.PlayBGM(_audioManager.GetBGM(_startScene));
         CurrentScene = _startScene;
+        _decrease = _decreaseTime;
     }
 
     // Update is called once per frame
@@ -72,7 +74,7 @@ public class GameManager : MonoBehaviour
 
         if (IsStop) return;
 
-        ChangeEnergy(-_decreaseTime * Time.deltaTime);
+        ChangeEnergy(-_decrease * Time.deltaTime);
     }
 
     public void RegisterGauge(EnergyGauge gauge)
@@ -102,6 +104,7 @@ public class GameManager : MonoBehaviour
             _isFade = false;
             FadePanel(true);
             _audioManager.PlayBGM(_audioManager.GetBGM(name));
+            _decrease = _decreaseTime;
         });
     }
 
