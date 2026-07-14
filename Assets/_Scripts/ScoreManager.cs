@@ -16,6 +16,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private Image _goImg;
     [SerializeField] private Image _finishImg;
     [SerializeField] private Transform _ufo;
+    [SerializeField] private Transform _effect;
     [SerializeField] private Beam _beam;
 
     [Header("ƒpƒ‰ƒ[ƒ^")]
@@ -48,6 +49,7 @@ public class ScoreManager : MonoBehaviour
     private Tween _scoreTween;
     private int _currentScore = 0;
     private int _growCount = 0;
+    private Vector3 _scaleEffect;
     private AudioManager _audioManager;
     private void Awake()
     {
@@ -62,6 +64,7 @@ public class ScoreManager : MonoBehaviour
         _goImg.gameObject.SetActive(false);
         _resultPanel.SetActive(false);
         _finishImg.gameObject.SetActive(false);
+        _scaleEffect = _effect.localScale;
     }
     private void Start()
     {
@@ -142,6 +145,7 @@ public class ScoreManager : MonoBehaviour
         _growCount += delta >= 0 ? 1 : -1;
         float scale = Mathf.Min(1f + _growCount * 0.05f, 3f);
         _ufo.localScale = Vector3.one * scale;
+        _effect.localScale = _scaleEffect * scale;
         _beam.PowerUp(scale);
         _beam.transform.localScale = new Vector3(1.25f, 1.25f / scale, 1.25f);
     }

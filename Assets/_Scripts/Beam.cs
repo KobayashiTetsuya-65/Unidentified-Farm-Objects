@@ -162,5 +162,6 @@ public class Beam : MonoBehaviour
         float t = Mathf.InverseLerp(1f, _maxScale, scale);
         _light.spotAngle = Mathf.Lerp(_lightMin.y, _lightMax.y, t);
         _light.innerSpotAngle = Mathf.Lerp(_lightMin.x,_lightMax.x, t);
+        _gameManager._decrease = Mathf.Lerp(60f, 100f, t);
     }
 }

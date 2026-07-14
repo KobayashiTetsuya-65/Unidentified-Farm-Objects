@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4be91dcbd4e64348ad0f8a969073e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bomb
-  _score: -300
-  _energy: -100
+  _score: -500
+  _energy: -500
   _weight: 3
   _pendulumMag: 5
   _speed: 1

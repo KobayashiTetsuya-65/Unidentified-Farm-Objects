@@ -14,6 +14,7 @@ public class EnergyGauge : MonoBehaviour
 
     [Header("パラメータ")]
     [SerializeField] private float _maxTime = 3600;
+    [SerializeField] private float _duration = 0.2f;
 
     private float _currenTime;
     private Tween _gaugeTween;
@@ -70,18 +71,19 @@ public class EnergyGauge : MonoBehaviour
             _gaugeImg.fillAmount = _currenTime / _maxTime;
         }
 
+        //終了時処理
         if(_currenTime <= 0 && !_isFinish)
         {
             _isFinish = true;
 
             ScoreManager scoreManager = ScoreManager.Instance;
-            _gameManager.Pouse(true);
-            _beam.BeamAnimation(0.2f, false);
+            _gameManager.Pouse(_isFinish);
+            _beam.BeamAnimation(_duration, !_isFinish);
             scoreManager.FinishAnimation(
                 () => _player.FinishUFOAnimation(
-                () => _gameManager.FadePanel(false,
+                () => _gameManager.FadePanel(!_isFinish,
                 () => scoreManager.DisplayResult(
-                () => _gameManager.FadePanel(true,
+                () => _gameManager.FadePanel(_isFinish,
                 () => _gameManager.ChangeCurrentScene(SceneName.Result))))));
         }
     }
